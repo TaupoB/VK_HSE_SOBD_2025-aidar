@@ -1,0 +1,459 @@
+
+>>> hdfs dfs -mkdir /createme
+-------
+
+>>> hdfs dfs -rm -r -f /delme
+-------
+
+>>> echo "Hadoop client is working" | hdfs dfs -put - /nonnull.txt
+-------
+
+>>> hdfs dfs -put /tmp/shadow.txt /shadow.txt
+-------
+
+>>> hadoop jar hadoop-mapreduce-examples wordcount
+-------
+2025-12-17 19:42:19 INFO  DefaultNoHARMFailoverProxyProvider:64 - Connecting to ResourceManager at master/172.19.0.2:8032
+2025-12-17 19:42:20 INFO  JobResourceUploader:907 - Disabling Erasure Coding for path: /tmp/hadoop-yarn/staging/hadoop/.staging/job_1766000503626_0001
+2025-12-17 19:42:20 INFO  FileInputFormat:300 - Total input files to process : 1
+2025-12-17 19:42:21 INFO  JobSubmitter:202 - number of splits:1
+2025-12-17 19:42:21 INFO  JobSubmitter:298 - Submitting tokens for job: job_1766000503626_0001
+2025-12-17 19:42:21 INFO  JobSubmitter:299 - Executing with tokens: []
+2025-12-17 19:42:21 INFO  Configuration:2854 - resource-types.xml not found
+2025-12-17 19:42:21 INFO  ResourceUtils:476 - Unable to find 'resource-types.xml'.
+2025-12-17 19:42:22 INFO  YarnClientImpl:338 - Submitted application application_1766000503626_0001
+2025-12-17 19:42:22 INFO  Job:1682 - The url to track the job: http://master:8088/proxy/application_1766000503626_0001/
+2025-12-17 19:42:22 INFO  Job:1727 - Running job: job_1766000503626_0001
+2025-12-17 19:42:30 INFO  Job:1748 - Job job_1766000503626_0001 running in uber mode : false
+2025-12-17 19:42:30 INFO  Job:1755 -  map 0% reduce 0%
+2025-12-17 19:42:36 INFO  Job:1755 -  map 100% reduce 0%
+2025-12-17 19:42:42 INFO  Job:1755 -  map 100% reduce 100%
+2025-12-17 19:42:44 INFO  Job:1766 - Job job_1766000503626_0001 completed successfully
+2025-12-17 19:42:44 INFO  Job:1773 - Counters: 54
+	File System Counters
+		FILE: Number of bytes read=4764
+		FILE: Number of bytes written=562277
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=13882
+		HDFS: Number of bytes written=3406
+		HDFS: Number of read operations=8
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+		HDFS: Number of bytes read erasure-coded=0
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Rack-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=2900
+		Total time spent by all reduces in occupied slots (ms)=3260
+		Total time spent by all map tasks (ms)=2900
+		Total time spent by all reduce tasks (ms)=3260
+		Total vcore-milliseconds taken by all map tasks=2900
+		Total vcore-milliseconds taken by all reduce tasks=3260
+		Total megabyte-milliseconds taken by all map tasks=2969600
+		Total megabyte-milliseconds taken by all reduce tasks=3338240
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=2007
+		Map output bytes=21817
+		Map output materialized bytes=4764
+		Input split bytes=94
+		Combine input records=2007
+		Combine output records=353
+		Reduce input groups=353
+		Reduce shuffle bytes=4764
+		Reduce input records=353
+		Reduce output records=353
+		Spilled Records=706
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=152
+		CPU time spent (ms)=950
+		Physical memory (bytes) snapshot=781733888
+		Virtual memory (bytes) snapshot=6600404992
+		Total committed heap usage (bytes)=479723520
+		Peak Map Physical memory (bytes)=441188352
+		Peak Map Virtual memory (bytes)=3295870976
+		Peak Reduce Physical memory (bytes)=340545536
+		Peak Reduce Virtual memory (bytes)=3304534016
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=13788
+	File Output Format Counters 
+		Bytes Written=3406
+
+>>> hdfs dfs -cat /wordcount_out/part-r-00000
+-------
+Aenean	18
+Aliquam	5
+Class	1
+Cras	10
+Cum	2
+Curabitur	13
+Curae;	6
+Donec	20
+Duis	6
+Etiam	13
+Fusce	15
+In	16
+Innsmouth	8
+Integer	4
+Lorem	1
+Maecenas	10
+Mauris	2
+Morbi	7
+Nam	10
+Nulla	6
+Nullam	14
+Nunc	8
+Pellentesque	15
+Phasellus	23
+Praesent	18
+Proin	6
+Quisque	7
+Sed	20
+Suspendisse	9
+Ut	8
+Vestibulum	19
+Vivamus	9
+a	14
+a,	13
+ac	26
+ac,	6
+accumsan	7
+accumsan.	1
+ad	1
+adipiscing	7
+adipiscing,	1
+adipiscing.	4
+aliquam	6
+aliquam,	2
+aliquam.	1
+aliquet	4
+aliquet,	1
+amet	15
+amet,	4
+ante	14
+ante,	2
+ante.	3
+aptent	1
+arcu	6
+arcu,	2
+arcu.	8
+at	11
+at,	1
+auctor	8
+auctor,	2
+auctor.	1
+augue	10
+augue,	1
+augue.	5
+bibendum	4
+blandit	10
+commodo	6
+condimentum	6
+condimentum,	2
+condimentum.	1
+congue	3
+congue,	2
+consectetuer	10
+consequat	4
+consequat,	2
+conubia	1
+convallis	5
+cubilia	6
+cursus	10
+dapibus	5
+dapibus.	2
+diam	1
+diam.	3
+dictum	3
+dictumst.	3
+dignissim	2
+dis	2
+dolor	9
+dolor,	4
+dolor.	7
+dui	5
+dui,	1
+dui.	8
+egestas	9
+egestas,	3
+egestas.	4
+eget	14
+eget,	14
+eleifend	9
+elementum	5
+elit	7
+elit,	1
+elit.	4
+enim	6
+enim.	8
+erat	6
+erat.	2
+eros	9
+eros,	3
+eros.	2
+est	1
+est.	4
+et	27
+et,	10
+eu	11
+eu,	9
+euismod	9
+facilisi.	1
+facilisis,	1
+facilisis.	2
+fames	4
+faucibus	12
+faucibus,	1
+faucibus.	2
+felis	13
+felis,	2
+felis.	3
+fermentum	3
+fermentum.	1
+feugiat	3
+feugiat,	5
+feugiat.	3
+fringilla	9
+fringilla.	2
+gravida	6
+habitant	4
+habitasse	3
+hac	3
+hendrerit	12
+hendrerit.	3
+hymenaeos.	1
+iaculis	4
+iaculis,	4
+iaculis.	1
+id	13
+id,	8
+imperdiet	13
+imperdiet,	2
+imperdiet.	2
+in	17
+in,	4
+inceptos	1
+interdum	2
+interdum,	1
+ipsum	14
+ipsum,	4
+ipsum.	5
+justo	3
+justo,	4
+justo.	6
+lacinia	2
+lacinia.	2
+lacus	7
+lacus.	7
+laoreet	3
+laoreet,	1
+laoreet.	3
+lectus	2
+lectus,	1
+lectus.	2
+leo	10
+leo,	1
+leo.	7
+libero	9
+libero,	5
+libero.	9
+ligula	12
+ligula,	3
+ligula.	3
+litora	1
+lobortis	3
+lobortis.	3
+lorem	5
+lorem.	5
+luctus	9
+magna	3
+magna,	2
+magna.	6
+magnis	2
+malesuada	9
+malesuada.	2
+massa	4
+massa.	4
+mattis	6
+mauris	7
+mauris.	5
+metus	7
+metus,	3
+metus.	7
+mi	12
+mi.	7
+molestie	2
+molestie,	1
+mollis	11
+mollis,	4
+montes,	2
+morbi	4
+mus.	2
+nascetur	2
+natoque	2
+nec	15
+nec,	14
+neque	8
+neque.	5
+netus	4
+nibh	2
+nibh,	2
+nibh.	5
+nisi	5
+nisi,	1
+nisi.	12
+nisl	8
+nisl,	2
+nisl.	3
+non	8
+non,	10
+nonummy	7
+nostra,	1
+nulla	7
+nulla.	2
+nunc	9
+nunc,	8
+nunc.	7
+odio	5
+odio,	1
+odio.	4
+orci	11
+orci,	2
+orci.	7
+ornare	2
+parturient	2
+pede	9
+pede.	5
+pellentesque	9
+pellentesque,	1
+penatibus	2
+per	2
+pharetra	2
+placerat	5
+placerat.	1
+platea	3
+porta	4
+porttitor	4
+porttitor,	1
+posuere	17
+posuere,	2
+posuere.	2
+potenti.	1
+pretium	10
+pretium,	1
+pretium.	4
+primis	6
+pulvinar	3
+pulvinar,	5
+purus	5
+purus,	1
+purus.	3
+quam	9
+quam,	2
+quam.	5
+quis	24
+quis,	10
+rhoncus	5
+rhoncus,	2
+rhoncus.	2
+ridiculus	2
+risus	2
+risus,	1
+risus.	2
+rutrum	5
+rutrum,	2
+rutrum.	3
+sagittis	8
+sagittis.	6
+sapien	4
+sapien,	4
+sapien.	4
+scelerisque	4
+sed	7
+sed,	5
+sem	10
+sem,	1
+sem.	4
+semper	9
+semper,	1
+senectus	4
+sit	19
+sociis	2
+sociosqu	1
+sodales	5
+sodales,	2
+sollicitudin	3
+sollicitudin,	1
+suscipit	8
+suscipit.	1
+taciti	1
+tellus	7
+tellus,	2
+tellus.	5
+tempor	4
+tempus	3
+tempus,	3
+tempus.	3
+tincidunt	14
+tincidunt.	5
+torquent	1
+tortor	6
+tortor,	4
+tortor.	5
+tristique	6
+tristique.	2
+turpis	14
+turpis,	1
+turpis.	8
+ullamcorper	8
+ullamcorper,	1
+ultrices	11
+ultricies	10
+urna	5
+urna.	3
+ut	18
+ut,	12
+varius	8
+varius.	1
+varius.Lorem	1
+vehicula	1
+vehicula,	1
+vel	8
+vel,	5
+velit	9
+velit.	6
+venenatis	9
+vestibulum	11
+vestibulum.	3
+vitae	10
+vitae,	7
+viverra	8
+viverra,	1
+viverra.	1
+volutpat	8
+volutpat,	1
+volutpat.	2
+vulputate	9
+
+>>> grep Innsmouth count
+-------
+Innsmouth	8
+
+>>> write result to /whataboutinsmouth.txt
+-------
+
+>>> hdfs dfs -cat /whataboutinsmouth.txt
+-------
+8

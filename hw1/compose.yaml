@@ -1,0 +1,51 @@
+services:
+
+  master:
+    platform: linux/amd64
+    image: apache/hadoop:3.3.6
+    container_name: master
+    hostname: master
+    ports:
+      - "9870:9870"   # HDFS UI
+      - "8088:8088"   # YARN UI
+      - "8020:8020"
+      - "8032:8032"
+    env_file:
+      - ./config
+    environment:
+      ENSURE_NAMENODE_DIR: "/tmp/hadoop-root/dfs/name"
+    command: >
+      bash -c "
+      hdfs namenode -format -force &&
+      hdfs namenode &
+      yarn resourcemanager &
+      tail -f /dev/null
+      "
+
+  datanode:
+    platform: linux/amd64
+    image: apache/hadoop:3.3.6
+    command: ["hdfs", "datanode"]
+    depends_on:
+      - master
+    env_file:
+      - ./config
+
+  nodemanager:
+    platform: linux/amd64
+    image: apache/hadoop:3.3.6
+    command: ["yarn", "nodemanager"]
+    depends_on:
+      - master
+    env_file:
+      - ./config
+
+  client:
+    platform: linux/amd64
+    image: apache/hadoop:3.3.6
+    container_name: hadoop-client
+    depends_on:
+      - master
+    env_file:
+      - ./config
+    command: tail -f /dev/null
