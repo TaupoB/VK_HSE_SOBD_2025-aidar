@@ -1,0 +1,102 @@
+services:
+  master:
+    platform: linux/amd64
+    image: apache/hadoop:3.3.6
+    container_name: master
+    hostname: master
+    ports:
+      - "9870:9870"
+      - "8088:8088"
+      - "8020:8020"
+    env_file:
+      - ./config
+    environment:
+      ENSURE_NAMENODE_DIR: "/tmp/hadoop-root/dfs/name"
+    command: >
+      bash -c "
+      hdfs namenode -format -force &&
+      hdfs namenode &
+      yarn resourcemanager &
+      tail -f /dev/null
+      "
+
+  datanode:
+    platform: linux/amd64
+    image: apache/hadoop:3.3.6
+    command: ["hdfs", "datanode"]
+    depends_on:
+      - master
+    env_file:
+      - ./config
+
+  nodemanager:
+    platform: linux/amd64
+    image: apache/hadoop:3.3.6
+    command: ["yarn", "nodemanager"]
+    depends_on:
+      - master
+    env_file:
+      - ./config
+
+  client:
+    platform: linux/amd64
+    image: apache/hadoop:3.3.6
+    container_name: hadoop-client
+    depends_on:
+      - master
+    env_file:
+      - ./config
+    command: tail -f /dev/null
+
+  postgres:
+    image: postgres:15
+    container_name: hive-postgres
+    restart: unless-stopped
+    env_file:
+      - ./config
+    volumes:
+      - hive_db_data:/var/lib/postgresql/data
+
+  metastore:
+    image: apache/hive:4.0.0
+    container_name: hive-metastore
+    depends_on:
+      - postgres
+      - master
+    env_file:
+      - ./config
+    environment:
+      SERVICE_NAME: metastore
+      DB_DRIVER: postgres
+      SERVICE_OPTS: >-
+        -Djavax.jdo.option.ConnectionDriverName=org.postgresql.Driver
+        -Djavax.jdo.option.ConnectionURL=jdbc:postgresql://postgres:5432/metastore_db
+        -Djavax.jdo.option.ConnectionUserName=hive
+        -Djavax.jdo.option.ConnectionPassword=password
+        -Dfs.defaultFS=hdfs://master:8020
+    volumes:
+      - ./lib/postgresql-42.7.3.jar:/opt/hive/lib/postgres.jar
+
+
+  hiveserver2:
+    image: apache/hive:4.0.0
+    container_name: hive-server
+    restart: on-failure
+    ports:
+      - "10000:10000"
+      - "10002:10002"
+    depends_on:
+      - metastore
+      - master
+    environment:
+      SERVICE_NAME: hiveserver2
+      IS_RESUME: "true"
+      SERVICE_OPTS: >-
+        -Dhive.metastore.uris=thrift://metastore:9083
+        -Dfs.defaultFS=hdfs://master:8020
+    volumes:
+      - ./lib/postgresql-42.7.3.jar:/opt/hive/lib/postgres.jar
+
+
+volumes:
+  hive_db_data:
