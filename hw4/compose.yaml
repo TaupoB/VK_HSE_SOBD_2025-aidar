@@ -1,0 +1,67 @@
+services:
+  zookeeper:
+    image: zookeeper:3.9
+    container_name: zookeeper
+    hostname: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=zookeeper:2888:3888;2181
+    volumes:
+      - zookeeper-data:/data
+      - zookeeper-log:/datalog
+    networks:
+      - clickhouse-network
+
+  st1:
+    image: clickhouse/clickhouse-server:24.1
+    container_name: st1
+    hostname: st1
+    ports:
+      - "8123:8123"   
+      - "9000:9000"   
+      - "9009:9009"   
+    volumes:
+      - ./config/st1:/etc/clickhouse-server/config.d
+      - st1-data:/var/lib/clickhouse
+      - ./logs/st1:/var/log/clickhouse-server
+    depends_on:
+      - zookeeper
+    networks:
+      - clickhouse-network
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  st2:
+    image: clickhouse/clickhouse-server:24.1
+    container_name: st2
+    hostname: st2
+    ports:
+      - "8124:8123" 
+      - "9001:9000"   
+      - "9010:9009"
+    volumes:
+      - ./config/st2:/etc/clickhouse-server/config.d
+      - st2-data:/var/lib/clickhouse
+      - ./logs/st2:/var/log/clickhouse-server
+    depends_on:
+      - zookeeper
+    networks:
+      - clickhouse-network
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+volumes:
+  zookeeper-data:
+  zookeeper-log:
+  st1-data:
+  st2-data:
+
+networks:
+  clickhouse-network:
+    driver: bridge
